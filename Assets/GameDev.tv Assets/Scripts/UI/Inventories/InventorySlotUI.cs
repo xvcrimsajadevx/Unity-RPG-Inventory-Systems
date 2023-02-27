@@ -1,37 +1,47 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using GameDevTV.Inventories;
 using GameDevTV.Core.UI.Dragging;
-using static UnityEditor.Progress;
 
 namespace GameDevTV.UI.Inventories
 {
-    public class InventorySlotUI : MonoBehaviour, IDragContainer<Sprite>
+    public class InventorySlotUI : MonoBehaviour, IDragContainer<InventoryItem>
     {
         // CONFIG DATA
         [SerializeField] InventoryItemIcon icon = null;
 
+        // STATE
+        int index;
+        InventoryItem item;
+        Inventory inventory;
+
         // PUBLIC
 
-        public int MaxAcceptable(Sprite item)
+        public void Setup(Inventory inventory, int index)
         {
-            if (GetItem() == null)
+            this.inventory = inventory;
+            this.index = index;
+            icon.SetItem(inventory.GetItemInSlot(index));
+        }
+
+        public int MaxAcceptable(InventoryItem item)
+        {
+            if (inventory.HasSpaceFor(item))
             {
                 return int.MaxValue;
             }
             return 0;
         }
 
-        public void AddItems(Sprite item, int number)
+        public void AddItems(InventoryItem item, int number)
         {
-            print(gameObject + " AddItems " + item);
-            icon.SetItem(item);
+            inventory.AddItemToSlot(index, item);
         }
 
-        public Sprite GetItem()
+        public InventoryItem GetItem()
         {
-            print(gameObject + " GetItem " + icon.GetItem());
-            return icon.GetItem();
+            return inventory.GetItemInSlot(index);
         }
 
         public int GetNumber()
@@ -41,8 +51,7 @@ namespace GameDevTV.UI.Inventories
 
         public void RemoveItems(int number)
         {
-            print(gameObject + " RevoveItems " + icon.GetItem());
-            icon.SetItem(null);
+            inventory.RemoveFromSlot(index);
         }
     }
 }
