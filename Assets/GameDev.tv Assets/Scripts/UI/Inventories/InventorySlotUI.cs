@@ -2,6 +2,7 @@
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
 using GameDevTV.Core.UI.Dragging;
+using static UnityEditor.Progress;
 
 namespace GameDevTV.UI.Inventories
 {
@@ -23,11 +24,13 @@ namespace GameDevTV.UI.Inventories
 
         public void AddItems(Sprite item, int number)
         {
+            print(gameObject + " AddItems " + item);
             icon.SetItem(item);
         }
 
         public Sprite GetItem()
         {
+            print(gameObject + " GetItem " + icon.GetItem());
             return icon.GetItem();
         }
 
@@ -38,6 +41,7 @@ namespace GameDevTV.UI.Inventories
 
         public void RemoveItems(int number)
         {
+            print(gameObject + " RevoveItems " + icon.GetItem());
             icon.SetItem(null);
         }
     }
