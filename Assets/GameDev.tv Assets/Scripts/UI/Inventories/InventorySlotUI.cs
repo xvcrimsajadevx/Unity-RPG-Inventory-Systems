@@ -13,7 +13,6 @@ namespace GameDevTV.UI.Inventories
 
         // STATE
         int index;
-        InventoryItem item;
         Inventory inventory;
 
         // PUBLIC
